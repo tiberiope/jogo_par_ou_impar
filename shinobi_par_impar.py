@@ -1,6 +1,13 @@
 import tkinter
 from constantes import *
-from calc_par_impar import *
+import random
+import sys
+import os
+import tkinter.messagebox
+
+def restart_program():
+    python = sys.executable
+    os.execl(python, python, *sys.argv)
 
 class Janela():
     def __init__(self, raiz):
@@ -22,6 +29,9 @@ class Janela():
         self.fr6 = tkinter.Frame(raiz, bg=cinza1)
         self.fr6.pack()
 
+        self.fr7 = tkinter.Frame(raiz, bg=cinza1)
+        self.fr7.pack()
+
         self.img_player = tkinter.PhotoImage(file='images/ninja.png')
         self.img_pc = tkinter.PhotoImage(file='images/robo.png')
         self.img0 = tkinter.PhotoImage(file='images/numero_0.png')
@@ -36,7 +46,7 @@ class Janela():
         self.img9 = tkinter.PhotoImage(file='images/numero_9.png')
         self.img10 = tkinter.PhotoImage(file='images/numero_10.png')
 
-        self.lb1 = tkinter.Label(self.fr1, text='BATALHA PAR OU IMPAR', font=fonte1, bg=cinza1, fg=azul2, pady=10)
+        self.lb1 = tkinter.Label(self.fr1, text='BATALHA DE PAR OU ÍMPAR', font=fonte1, bg=cinza1, fg=azul2, pady=10)
         self.lb1.pack()
 
         self.lb_result = tkinter.Label(self.fr1, text='', bg=cinza1, font=fonte1, fg='green')
@@ -73,31 +83,333 @@ class Janela():
                                           fg=azul2, font=fonte2, pady=20)
         self.rb_impar.pack(side='right')
 
-        self.lb5 = tkinter.Label(self.fr5, text='Número de 01 a 10: ', bg=cinza1, fg=azul2, font=fonte3, width=16, pady=20)
+        self.lb5 = tkinter.Label(self.fr5, text='Número de 0 a 10: ', bg=cinza1, fg=azul2, font=fonte3, width=16, pady=20)
         self.lb5.pack(side='left')
 
-        self.num = tkinter.Entry(self.fr5, font=fonte3, width=2)
-        self.num.pack(side='right')
+        self.num_player = tkinter.Entry(self.fr5, font=fonte3, width=2)
+        self.num_player.pack(side='right')
 
         self.bt_jogar = tkinter.Button(self.fr6, font=fonte3, text='JOGAR', bg=cinza2, relief='raised', border=8,
-                                       command=self.jogar)
+                                       command=self.jogar, width= 8, height=1)
         self.bt_jogar.bind("<Return>", self.jogar2)
-        self.bt_jogar.pack()
+        self.bt_jogar.focus_force()
+        self.bt_jogar.pack(side='left')
 
-        self.lb_erro = tkinter.Label(self.fr6, text='', font=fonte4, bg=cinza1, fg='red')
+        self.lb_vazio = tkinter.Label(self.fr6, text='   ', bg=cinza1, fg=azul2, font=fonte3)
+        self.lb_vazio.pack(side='left')
+
+        self.bt_restart = tkinter.Button(self.fr6, font=fonte3, text='RESTART', bg=cinza2, relief='raised', border=8,
+                                         width=8, height=1, command=self.resetar)
+        self.bt_restart.bind('<Return>', self.resetar2)
+        self.bt_restart.pack(side='right')
+
+        self.lb_erro = tkinter.Label(self.fr7, text='', font=fonte4, bg=cinza1, fg='red', pady=12)
         self.lb_erro.pack()
 
     def jogar(self):
-        pass
+        try:
+            escolha = self.escolha.get()
+            self.lb_result['text'] = ''
+
+            if escolha != '':
+                num_player = int(self.num_player.get())
+                num_robo = random.randrange(0, 11)
+                self.lb_erro['text'] = ''
+                self.lb_erro.pack()
+
+                #mão do player.
+                if num_player == 0:
+                    self.lb_img_player['image'] = self.img0
+                    self.lb_img_player.pack()
+
+                elif num_player == 1:
+                    self.lb_img_player['image'] = self.img1
+                    self.lb_img_player.pack()
+
+                elif num_player == 2:
+                    self.lb_img_player['image'] = self.img2
+                    self.lb_img_player.pack()
+
+                elif num_player == 3:
+                    self.lb_img_player['image'] = self.img3
+                    self.lb_img_player.pack()
+
+                elif num_player == 4:
+                    self.lb_img_player['image'] = self.img4
+                    self.lb_img_player.pack()
+
+                elif num_player == 5:
+                    self.lb_img_player['image'] = self.img5
+                    self.lb_img_player.pack()
+
+                elif num_player == 6:
+                    self.lb_img_player['image'] = self.img6
+                    self.lb_img_player.pack()
+
+                elif num_player == 7:
+                    self.lb_img_player['image'] = self.img7
+                    self.lb_img_player.pack()
+
+                elif num_player == 8:
+                    self.lb_img_player['image'] = self.img8
+                    self.lb_img_player.pack()
+
+                elif num_player == 9:
+                    self.lb_img_player['image'] = self.img9
+                    self.lb_img_player.pack()
+
+                elif num_player == 10:
+                    self.lb_img_player['image'] = self.img10
+                    self.lb_img_player.pack()
+                else:
+                    self.lb_img_player['image'] = self.img_player
+                    self.lb_img_player.pack()
+                    self.lb_img_pc['image'] = self.img_pc
+                    self.lb_img_pc.pack()
+                    self.lb_erro['text'] = 'Insira um número de 0 a 10!'
+                    self.lb_erro.pack()
+
+                #mão do robô.
+                if (num_player >= 0) and (num_player <= 10):
+                    if num_robo == 0:
+                        self.lb_img_pc['image'] = self.img0
+                        self.lb_img_pc.pack()
+
+                    elif num_robo == 1:
+                        self.lb_img_pc['image'] = self.img1
+                        self.lb_img_pc.pack()
+
+                    elif num_robo == 2:
+                        self.lb_img_pc['image'] = self.img2
+                        self.lb_img_pc.pack()
+
+                    elif num_robo == 3:
+                        self.lb_img_pc['image'] = self.img3
+                        self.lb_img_pc.pack()
+
+                    elif num_robo == 4:
+                        self.lb_img_pc['image'] = self.img4
+                        self.lb_img_pc.pack()
+
+                    elif num_robo == 5:
+                        self.lb_img_pc['image'] = self.img5
+                        self.lb_img_pc.pack()
+
+                    elif num_robo == 6:
+                        self.lb_img_pc['image'] = self.img6
+                        self.lb_img_pc.pack()
+
+                    elif num_robo == 7:
+                        self.lb_img_pc['image'] = self.img7
+                        self.lb_img_pc.pack()
+
+                    elif num_robo == 8:
+                        self.lb_img_pc['image'] = self.img8
+                        self.lb_img_pc.pack()
+
+                    elif num_robo == 9:
+                        self.lb_img_pc['image'] = self.img9
+                        self.lb_img_pc.pack()
+
+                    elif num_robo == 10:
+                        self.lb_img_pc['image'] = self.img10
+                        self.lb_img_pc.pack()
+
+                    resultado = (num_player + num_robo) % 2
+
+                    if (resultado == 1):
+                        self.lb_result['text'] = 'DEU ÍMPAR!'
+
+                        if escolha == 'impar':
+                            self.placar1 += 1
+                            self.lb3['text'] = str(self.placar1) + ' x ' + str(self.placar2)
+                            self.lb3.pack()
+                        else:
+                            self.placar2 += 1
+                            self.lb3['text'] = str(self.placar1) + ' x ' + str(self.placar2)
+
+                    else:
+                        self.lb_result['text'] = 'DEU PAR!'
+
+                        if escolha == 'par':
+                            self.placar1 += 1
+                            self.lb3['text'] = str(self.placar1) + ' x ' + str(self.placar2)
+                        else:
+                            self.placar2 += 1
+                            self.lb3['text'] = str(self.placar1) + ' x ' + str(self.placar2)
+
+            else:
+                self.lb_erro['text'] = 'Escolha PAR ou ÍMPAR!'
+                self.lb_erro.pack()
+
+        except:
+            self.lb_img_player['image'] = self.img_player
+            self.lb_img_player.pack()
+            self.lb_img_pc['image'] = self.img_pc
+            self.lb_img_pc.pack()
+            self.lb_erro['text'] = 'Insira um número de 0 a 10!'
+            self.lb_erro.pack()
 
     def jogar2(self, event):
-        pass
+        try:
+            escolha = self.escolha.get()
+            self.lb_result['text'] = ''
 
+            if escolha != '':
+                num_player = int(self.num_player.get())
+                num_robo = random.randrange(0, 11)
+                self.lb_erro['text'] = ''
+                self.lb_erro.pack()
+
+                # mão do player.
+                if num_player == 0:
+                    self.lb_img_player['image'] = self.img0
+                    self.lb_img_player.pack()
+
+                elif num_player == 1:
+                    self.lb_img_player['image'] = self.img1
+                    self.lb_img_player.pack()
+
+                elif num_player == 2:
+                    self.lb_img_player['image'] = self.img2
+                    self.lb_img_player.pack()
+
+                elif num_player == 3:
+                    self.lb_img_player['image'] = self.img3
+                    self.lb_img_player.pack()
+
+                elif num_player == 4:
+                    self.lb_img_player['image'] = self.img4
+                    self.lb_img_player.pack()
+
+                elif num_player == 5:
+                    self.lb_img_player['image'] = self.img5
+                    self.lb_img_player.pack()
+
+                elif num_player == 6:
+                    self.lb_img_player['image'] = self.img6
+                    self.lb_img_player.pack()
+
+                elif num_player == 7:
+                    self.lb_img_player['image'] = self.img7
+                    self.lb_img_player.pack()
+
+                elif num_player == 8:
+                    self.lb_img_player['image'] = self.img8
+                    self.lb_img_player.pack()
+
+                elif num_player == 9:
+                    self.lb_img_player['image'] = self.img9
+                    self.lb_img_player.pack()
+
+                elif num_player == 10:
+                    self.lb_img_player['image'] = self.img10
+                    self.lb_img_player.pack()
+                else:
+                    self.lb_img_player['image'] = self.img_player
+                    self.lb_img_player.pack()
+                    self.lb_img_pc['image'] = self.img_pc
+                    self.lb_img_pc.pack()
+                    self.lb_erro['text'] = 'Insira um número de 0 a 10!'
+                    self.lb_erro.pack()
+
+                # mão do robô.
+                if (num_player >= 0) and (num_player <= 10):
+                    if num_robo == 0:
+                        self.lb_img_pc['image'] = self.img0
+                        self.lb_img_pc.pack()
+
+                    elif num_robo == 1:
+                        self.lb_img_pc['image'] = self.img1
+                        self.lb_img_pc.pack()
+
+                    elif num_robo == 2:
+                        self.lb_img_pc['image'] = self.img2
+                        self.lb_img_pc.pack()
+
+                    elif num_robo == 3:
+                        self.lb_img_pc['image'] = self.img3
+                        self.lb_img_pc.pack()
+
+                    elif num_robo == 4:
+                        self.lb_img_pc['image'] = self.img4
+                        self.lb_img_pc.pack()
+
+                    elif num_robo == 5:
+                        self.lb_img_pc['image'] = self.img5
+                        self.lb_img_pc.pack()
+
+                    elif num_robo == 6:
+                        self.lb_img_pc['image'] = self.img6
+                        self.lb_img_pc.pack()
+
+                    elif num_robo == 7:
+                        self.lb_img_pc['image'] = self.img7
+                        self.lb_img_pc.pack()
+
+                    elif num_robo == 8:
+                        self.lb_img_pc['image'] = self.img8
+                        self.lb_img_pc.pack()
+
+                    elif num_robo == 9:
+                        self.lb_img_pc['image'] = self.img9
+                        self.lb_img_pc.pack()
+
+                    elif num_robo == 10:
+                        self.lb_img_pc['image'] = self.img10
+                        self.lb_img_pc.pack()
+
+                    resultado = (num_player + num_robo) % 2
+
+                    if (resultado == 1):
+                        self.lb_result['text'] = 'DEU ÍMPAR!'
+
+                        if escolha == 'impar':
+                            self.placar1 += 1
+                            self.lb3['text'] = str(self.placar1) + ' x ' + str(self.placar2)
+                            self.lb3.pack()
+                        else:
+                            self.placar2 += 1
+                            self.lb3['text'] = str(self.placar1) + ' x ' + str(self.placar2)
+
+                    else:
+                        self.lb_result['text'] = 'DEU PAR!'
+
+                        if escolha == 'par':
+                            self.placar1 += 1
+                            self.lb3['text'] = str(self.placar1) + ' x ' + str(self.placar2)
+                        else:
+                            self.placar2 += 1
+                            self.lb3['text'] = str(self.placar1) + ' x ' + str(self.placar2)
+
+            else:
+                self.lb_erro['text'] = 'Escolha PAR ou ÍMPAR!'
+                self.lb_erro.pack()
+
+        except:
+            self.lb_img_player['image'] = self.img_player
+            self.lb_img_player.pack()
+            self.lb_img_pc['image'] = self.img_pc
+            self.lb_img_pc.pack()
+            self.lb_erro['text'] = 'Insira um número de 0 a 10!'
+            self.lb_erro.pack()
+
+    def resetar(self):
+        resposta = tkinter.messagebox.askquestion('Reiniciar', 'Deseja Reiniciar?')
+
+        if resposta == 'yes':
+            restart_program()
+
+    def resetar2(self, event):
+        resposta = tkinter.messagebox.askquestion('Reiniciar', 'Deseja Reiniciar?')
+
+        if resposta == 'yes':
+            restart_program()
 
 raiz = tkinter.Tk()
 
 #Definições da janela
-raiz.geometry('800x610+300+30')
+raiz.geometry('800x615+300+30')
 raiz.iconbitmap('images/ninja.ico')
 raiz.title('Jogo de Par ou Impar')
 raiz['bg'] = cinza1
