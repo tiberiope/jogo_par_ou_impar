@@ -1,13 +1,7 @@
 import tkinter
 from constantes import *
 import random
-import sys
-import os
 import tkinter.messagebox
-
-def restart_program():
-    python = sys.executable
-    os.execl(python, python, *sys.argv)
 
 class Janela():
     def __init__(self, raiz):
@@ -223,7 +217,7 @@ class Janela():
                         if escolha == 'impar':
                             self.placar1 += 1
                             self.lb3['text'] = str(self.placar1) + ' x ' + str(self.placar2)
-                            self.lb3.pack()
+
                         else:
                             self.placar2 += 1
                             self.lb3['text'] = str(self.placar1) + ' x ' + str(self.placar2)
@@ -398,13 +392,25 @@ class Janela():
         resposta = tkinter.messagebox.askquestion('Reiniciar', 'Deseja Reiniciar?')
 
         if resposta == 'yes':
-            restart_program()
+            self.lb_result['text'] = ''
+            self.lb_img_pc['image'] = self.img_pc
+            self.lb_img_player['image'] = self.img_player
+            self.placar1 = 0
+            self.placar2 = 0
+            self.lb3['text'] = str(self.placar1) + ' x ' + str(self.placar2)
+            self.lb_erro['text'] = ''
 
     def resetar2(self, event):
         resposta = tkinter.messagebox.askquestion('Reiniciar', 'Deseja Reiniciar?')
 
         if resposta == 'yes':
-            restart_program()
+            self.lb_result['text'] = ''
+            self.lb_img_pc['image'] = self.img_pc
+            self.lb_img_player['image'] = self.img_player
+            self.placar1 = 0
+            self.placar2 = 0
+            self.lb3['text'] = str(self.placar1) + ' x ' + str(self.placar2)
+            self.lb_erro['text'] = ''
 
 raiz = tkinter.Tk()
 
